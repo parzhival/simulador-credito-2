@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Créditos</title>
+</head>
+<body>
+
+<header>
+  <h1>Sistema Básico de Créditos</h1>
+   <link rel="stylesheet" href="simulador_completo.css">
+</header>
+
+<nav>
+  <button onclick="mostrarSeccion('parametros')">Parámetros</button>
+  <button onclick="mostrarSeccion('clientes')">Clientes</button>
+  <button onclick="mostrarSeccion('credito')">Créditos</button>
+  <button onclick="mostrarSeccion('contacto')">Contacto</button>
+  <button onclick="mostrarSeccion('listaCreditos')">Creditos registrados</button>
+</nav>
+
+<section id="parametros">
+  <h2>Configurar Parámetros</h2>
+
+  <label>Tasa de interés:</label>
+  <input type="number" id="tasaInteres" min="10" max="20" value="15">
+  <span>%</span>
+
+  <br>
+  <button onclick="guardarTasa();">Guardar tasa</button>
+
+  <p id="mensajeTasa"></p>
+</section>
+
+<section id="clientes">
+  <h2>Registro de Clientes</h2>
+
+  <input type="text" id="cedula" placeholder="Cedula">
+  <input type="text" id="nombre" placeholder="Nombre">
+  <input type="text" id="apellido" placeholder="Apellido">
+  <input type="number" id="ingresos" placeholder="Ingresos mensuales">
+  <input type="number" id="egresos" placeholder="Egresos mensuales">
+  <input type="number" id="telefono" placeholder="Telefono">
+
+  <br>
+
+  <button onclick="guardarCliente();">Guardar cliente</button>
+  <button onclick="limpiar();">Limpiar</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cédula</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Ingresos</th>
+        <th>Egresos</th>
+        <th>Telefono</th>       
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaClientes">
+        <tr>
+          <td colspan="7">No existen clientes registrados</td> 
+        </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<section id="credito">
+  <h2>Solicitar Crédito</h2>
+
+  <input type="text" id="buscarCedulaCredito" placeholder="Ingresar Cédula">
+  <button onclick="buscarClienteCredito()">Buscar cliente</button>
+
+  <div id="datosClienteCredito" class="card"></div>
+
+  <input type="number" id="montoCredito" placeholder="Monto solicitado" >
+  <input type="number" id="plazoCredito" placeholder="Plazo" min="1" max="5">
+
+  <br>
+
+  <button onclick="calcularCredito()">Calcular crédito</button>
+
+  <div id="resultadoCredito"></div>
+
+  <button id="btnSolicitarCredito" onclick="solicitarCredito()" disabled>
+    Solicitar crédito
+  </button>
+</section>
+ 
+<section id="contacto">
+  <h2>Datos Clientes</h2>
+
+  <div>
+    <input type="text" id="buscarContactoCedula" placeholder="Ingresar Cédula">
+    <button onclick="buscarContactoCliente()">Buscar cliente</button>
+  </div>
+  <small id="txtAvisoContacto"></small>
+   <table>
+    <thead>
+      <tr>
+        <th>Cédula</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Contacto</th>
+        <th>Dirección</th>
+        <th>Créditos</th>
+      </tr>
+    </thead>
+    <tbody id="tablaContacto">
+       <tr>
+         <td colspan="6">No hay datos para mostrar</td>
+        </tr>
+        
+    </tbody>
+  </table>
+</section>
+ 
+
+<section id="listaCreditos">
+  <h2>Créditos Registrados</h2>
+
+ <div  style="display: flex;">
+  <div>
+   <input type="text" id="buscarCedulaListado" placeholder="Ingresar Cédula" >
+ </div>
+  
+  <button onclick="buscarCreditosCliente()">Buscar</button>
+  <button onclick="pintarCreditos(creditos)">Ver todos</button>
+ </div>
+ <small id="txtAvisoCredito"></small>
+  
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cédula</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Monto</th>
+        <th>Tasa</th>
+        <th>Plazo</th>
+        <th>Cuota</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody id="tablaCreditos">
+       <tr>
+         <td colspan="9">Busca el cliente o presiona ver todo para ver creditos existentes</td>
+        </tr>
+        
+    </tbody>
+  </table>
+</section>
+
+
+
+
+<script src="simulador_completo.js"></script>
+<script src="utilitarios.js"></script>
+</body>
+</html>
