@@ -84,7 +84,7 @@ function pintarCliente() {
     contenidoTabla += "<td>" + objCliente.telefono + "</td>"
     contenidoTabla += "<td>" +
       "<button onclick=seleccionarCliente(" + objCliente.cedula + ")>Actualizar</button>" +
-      "<button>Eliminar</button>" +
+      "<button onclick=eliminar("+ i +")>Eliminar</button>" +
       "</td></tr>"
   }
 
