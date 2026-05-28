@@ -14,7 +14,6 @@ function ocultarSecciones() {
   document.getElementById("clientes").classList.remove("activa");
   document.getElementById("parametros").classList.remove("activa");
   document.getElementById("credito").classList.remove("activa");
-  document.getElementById("contacto").classList.remove("activa");
   document.getElementById("listaCreditos").classList.remove("activa");
 
 }
@@ -73,9 +72,10 @@ function guardarCliente() {
 
 function pintarCliente() {
   let tabla = document.getElementById("tablaClientes");
-  let contenidoTabla = "<tr>"
+  let contenidoTabla = "";
   for (let i = 0; i < clientes.length; i++) {
     let objCliente = clientes[i];
+    contenidoTabla += "<tr>"
     contenidoTabla += "<td>" + objCliente.cedula + "</td>"
     contenidoTabla += "<td>" + objCliente.nombre + "</td>"
     contenidoTabla += "<td>" + objCliente.apellido + "</td>"
@@ -85,7 +85,8 @@ function pintarCliente() {
     contenidoTabla += "<td>" +
       "<button onclick=seleccionarCliente(" + objCliente.cedula + ")>Actualizar</button>" +
       "<button onclick=eliminar("+ i +")>Eliminar</button>" +
-      "</td></tr>"
+      "</td>"
+    contenidoTabla += "</tr>"  
   }
 
   tabla.innerHTML = contenidoTabla;
@@ -181,7 +182,11 @@ function calcularCredito(){
     resultadoCredito.className = "rechazado"
     botonCredito.disabled = true;
   }
-  
+
+  montoCalculado = monto;
+  cuotaCalculada = cuota;
+  plazoCalculado = plazo;
+  tasaInteres = taza;
   
   tabla+= "<tr>"
    tabla+=          "<p>capacidad de pago: "+ monto1 +"</p>"
@@ -229,4 +234,102 @@ function aprobarCredito(capacidadPago,cuotaMensual){
         return false
     }
 
+}
+
+function solicitarCredito(){
+  let resultadoCredito = document.getElementById("resultadoCredito");
+  let resultadoCliente = document.getElementById("datosClienteCredito");
+  let cliente= clientes[clienteSeleccionado]  
+
+  let credito = {
+      cedula: cliente.cedula,
+      nombre: cliente.nombre,
+      apellido: cliente.apellido,
+      monto: montoCalculado,
+      tasa: tasaInteres,
+      plazo: plazoCalculado,
+      cuota: cuotaCalculada
+     }
+
+
+    creditos.push(credito);
+    mostrarTextoEnCaja("montoCredito", "");
+    mostrarTextoEnCaja("plazoCredito", "");
+    mostrarTextoEnCaja("buscarCedulaCredito", "");
+    resultadoCredito.innerHTML = `<p>Credito Registrado</p>`;
+    resultadoCliente.innerHTML = "";
+}
+
+function buscarCreditos(cedula) {
+  let creditosEncontrados = [];
+
+  for (let i = 0; i < creditos.length; i++) {
+    let objCredito = creditos[i];
+
+    if (objCredito.cedula == cedula) {
+      creditosEncontrados.push(objCredito);
+    }
+  }
+
+  return creditosEncontrados;
+}
+
+function pintarCreditos(creditos) {
+  let tabla = document.getElementById("tablaCreditos");
+  let contenidoTabla = "";
+
+  if (creditos.length === 0) {
+    contenidoTabla += "<tr><td colspan='8'>No existen créditos registrados.</td></tr>";
+    tabla.innerHTML = contenidoTabla;
+    return; 
+  }
+
+  for (let i = 0; i < creditos.length; i++) {
+    let objCredito = creditos[i];
+    
+    contenidoTabla += "<tr>";
+    contenidoTabla += "<td>" + objCredito.cedula + "</td>";
+    contenidoTabla += "<td>" + objCredito.nombre + "</td>";
+    contenidoTabla += "<td>" + objCredito.apellido + "</td>";
+    contenidoTabla += "<td>" + objCredito.monto + "</td>";
+    contenidoTabla += "<td>" + objCredito.tasa + "%</td>";
+    contenidoTabla += "<td>" + objCredito.plazo + "</td>";
+    contenidoTabla += "<td>" + objCredito.cuota + "</td>";
+    contenidoTabla += "<td>Aprobado</td>"; 
+    contenidoTabla += "</tr>";
+  }
+
+  tabla.innerHTML = contenidoTabla;
+}
+
+function buscarCreditosCliente() {
+  let cmpAviso = recuperarElemento("txtAvisoCredito");
+  let cmpCedula = recuperarTexto("buscarCedulaListado").trim();
+
+  if (!validarCedula(cmpCedula)) {
+    cmpAviso.classList.add("aviso");
+    cmpAviso.innerText = "La cédula debe tener 10 digitos";
+    return;
+  }
+
+  cmpAviso.innerHTML = "";
+  let creditosCliente = buscarCreditos(cmpCedula);
+
+  pintarCreditos(creditosCliente);
+}
+
+function buscarCreditosCliente() {
+  let cmpAviso = document.getElementById("txtAvisoCredito");
+  let cmpCedula = recuperaraTexto("buscarCedulaListado");
+
+  if (cmpCedula.length != 10) {
+    cmpAviso.className = "aviso"; 
+    cmpAviso.innerHTML = "La cédula debe tener 10 digitos";
+    return;
+  }
+
+  cmpAviso.innerHTML = "";
+
+  let creditosCliente = buscarCreditos(cmpCedula);
+  pintarCreditos(creditosCliente);
 }

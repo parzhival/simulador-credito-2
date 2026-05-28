@@ -15,7 +15,6 @@
   <button onclick="mostrarSeccion('parametros')">Parámetros</button>
   <button onclick="mostrarSeccion('clientes')">Clientes</button>
   <button onclick="mostrarSeccion('credito')">Créditos</button>
-  <button onclick="mostrarSeccion('contacto')">Contacto</button>
   <button onclick="mostrarSeccion('listaCreditos')">Creditos registrados</button>
 </nav>
 
@@ -90,33 +89,7 @@
   </button>
 </section>
  
-<section id="contacto">
-  <h2>Datos Clientes</h2>
 
-  <div>
-    <input type="text" id="buscarContactoCedula" placeholder="Ingresar Cédula">
-    <button onclick="buscarContactoCliente()">Buscar cliente</button>
-  </div>
-  <small id="txtAvisoContacto"></small>
-   <table>
-    <thead>
-      <tr>
-        <th>Cédula</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Contacto</th>
-        <th>Dirección</th>
-        <th>Créditos</th>
-      </tr>
-    </thead>
-    <tbody id="tablaContacto">
-       <tr>
-         <td colspan="6">No hay datos para mostrar</td>
-        </tr>
-        
-    </tbody>
-  </table>
-</section>
  
 
 <section id="listaCreditos">
@@ -139,7 +112,6 @@
         <th>Cédula</th>
         <th>Nombre</th>
         <th>Apellido</th>
-        <th>Correo</th>
         <th>Monto</th>
         <th>Tasa</th>
         <th>Plazo</th>
