@@ -171,12 +171,15 @@ function calcularCredito(){
   let resultadoCredito = document.getElementById("resultadoCredito")
   let estado = aprobarCredito(monto1,cuota);
   let estado1
+  let botonCredito = document.getElementById("btnSolicitarCredito")
   if(estado == true){
     estado1= "credito aprobado"
     resultadoCredito.className = "aprobado"
+    botonCredito.disabled = false;
   }else{
     estado1= "credito rechazado"
     resultadoCredito.className = "rechazado"
+    botonCredito.disabled = true;
   }
   
   
