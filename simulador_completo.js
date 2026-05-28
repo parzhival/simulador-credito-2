@@ -166,15 +166,17 @@ function calcularCredito(){
   let monto1 = calcularCapacidadPago(disponible);
   let interes = calcularInteresSimple(monto, taza,monto );
   let total = calcularTotalPagar( monto,taza);
-  let cuota= calcularCuotaMensual(total, plazo);
+  let cuota= calcularCuotaMensual(total, plazo).toFixed(2);
   let tabla= ""
   let resultadoCredito = document.getElementById("resultadoCredito")
   let estado = aprobarCredito(monto1,cuota);
   let estado1
-  if(estado=true){
+  if(estado == true){
     estado1= "credito aprobado"
+    resultadoCredito.className = "aprobado"
   }else{
     estado1= "credito rechazado"
+    resultadoCredito.className = "rechazado"
   }
   
   
