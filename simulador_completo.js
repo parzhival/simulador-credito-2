@@ -163,8 +163,11 @@ function calcularCredito(){
   let monto = recuperarInt("montoCredito");
   let plazo = recuperarInt("plazoCredito");
   let taza = guardarTasa();
+
   let disponible = calcularDisponible(clientes[clienteSeleccionado].ingresos,clientes[clienteSeleccionado].egresos);
   let monto1 = calcularCapacidadPago(disponible);
+  let montoMaximo = (monto1 * (plazo*12)).toFixed(2);
+
   let interes = calcularInteresSimple(monto, taza,monto );
   let total = calcularTotalPagar( monto,taza);
   let cuota= calcularCuotaMensual(total, plazo).toFixed(2);
@@ -173,12 +176,16 @@ function calcularCredito(){
   let estado = aprobarCredito(monto1,cuota);
   let estado1
   let botonCredito = document.getElementById("btnSolicitarCredito")
-  if(estado == true){
+  if(estado == true && monto <= montoMaximo){
     estado1= "credito aprobado"
     resultadoCredito.className = "aprobado"
     botonCredito.disabled = false;
   }else{
-    estado1= "credito rechazado"
+    if(monto > montoMaximo){
+      estado1 = "credito rechazado (excede monto maximo)"
+    }else{
+      estado1 = "credito rechazado";
+    }
     resultadoCredito.className = "rechazado"
     botonCredito.disabled = true;
   }
@@ -194,7 +201,10 @@ function calcularCredito(){
    tabla+=          "<p>cuota mensual: "+cuota+"</p>"
    tabla+=          "<p>resultado: "+estado1 +"</p>"        
    tabla+=        "</tr>" 
-  resultadoCredito.innerHTML= tabla ;      
+  resultadoCredito.innerHTML= tabla ;  
+   
+  document.getElementById("montoCredito").value = "";
+  document.getElementById("plazoCredito").value = "";
 }
 
 function calcularDisponible(ingresos, egresos) {
@@ -332,4 +342,49 @@ function buscarCreditosCliente() {
 
   let creditosCliente = buscarCreditos(cmpCedula);
   pintarCreditos(creditosCliente);
+}
+
+function pintarCreditosMayores() {
+  let tabla = document.getElementById("tablaCreditosMayores");
+  let contenidoTabla = "";
+  let contador = 0;
+
+  for (let i = 0; i < creditos.length; i++) {
+    let objCredito = creditos[i];
+
+    if (objCredito.monto > 5000) {
+      contador++;
+      contenidoTabla += "<tr>";
+      contenidoTabla += "<td>" + objCredito.cedula + "</td>";
+      contenidoTabla += "<td>" + objCredito.nombre + "</td>";
+      contenidoTabla += "<td>" + objCredito.apellido + "</td>";
+      contenidoTabla += "<td>" + objCredito.monto + "</td>";
+      contenidoTabla += "<td>" + objCredito.tasa + "%</td>";
+      contenidoTabla += "<td>" + objCredito.plazo + "</td>";
+      contenidoTabla += "<td>" + objCredito.cuota + "</td>";
+      contenidoTabla += "<td>Alto Monto</td>"; 
+      contenidoTabla += "</tr>";
+    }
+  }
+
+  if (contador === 0) {
+    contenidoTabla += "<tr><td colspan='8'>No existen créditos mayores a 5000.</td></tr>";
+  }
+
+  tabla.innerHTML = contenidoTabla;
+}
+
+function mostrarAcercaDe() {
+  // Puedes personalizar estos datos con tu información real
+  let nombreDesarrollador = "Joshua Vaca / PARZHIVAL";
+  let proyecto = "Desarrollo de software";
+  let grupo = "PARZHIVAL"; 
+
+  alert(
+    "=== INFORMACIÓN DEL DESARROLLADOR ===" +
+    "Desarrollado por: " + nombreDesarrollador +
+    "Carrera: " + proyecto +
+    "Github: " + grupo + "\n\n" +
+    "¡Gracias por usar la aplicación!"
+  );
 }
